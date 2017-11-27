@@ -1,0 +1,6 @@
+Release
+Pics
+*.redsln
+/scripts
+/content
+*.log

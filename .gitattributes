@@ -1,0 +1,3 @@
+*.xml set diff
+*.csv set diff
+*.ws set diff
