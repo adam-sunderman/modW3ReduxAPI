@@ -238,7 +238,10 @@ statemachine import abstract class CPlayer extends CActor
 		}
 		if( !spawnData.restored )
 		{
-			inputHandler = new CPlayerInput in this;
+			//modW3ReduxAPI++
+			//inputHandler = new CPlayerInput in this;
+			inputHandler = new CW3ReduxAPIInput in this;
+			//modW3ReduxAPI--
 			theGame.EnableUberMovement( true );
 			((CInGameConfigWrapper)theGame.GetInGameConfigWrapper()).SetVarValue( 'Gameplay', 'EnableUberMovement', 1 );
 		}
@@ -283,7 +286,10 @@ statemachine import abstract class CPlayer extends CActor
 	
 	public function Debug_ResetInput()
 	{
-		inputHandler = new CPlayerInput in this;
+		//modW3ReduxAPI++
+		//inputHandler = new CPlayerInput in this;
+		inputHandler = new CW3ReduxAPIInput in this;
+		//modW3ReduxAPI--
 		inputHandler.Initialize(false);
 	}
 	

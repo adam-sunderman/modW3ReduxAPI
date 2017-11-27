@@ -658,6 +658,12 @@ import class CR4Game extends CCommonGame
 	
 	public function OnTick()
 	{
+		//modW3ReduxAPI++
+		var inputHandler : CW3ReduxAPIInput;
+		inputHandler = (CW3ReduxAPIInput) GetWitcherPlayer().GetInputHandler();
+		inputHandler.step();
+		//modW3ReduxAPI--
+	
 		if(envMgr)
 			envMgr.Update();
 			
@@ -671,9 +677,18 @@ import class CR4Game extends CCommonGame
 		FirePostponedPreAttackEvents();
 	}	
 	
+	//modW3ReduxAPITest++
+	private var testMap : W3ReduxTestExplorationMap;
+	//modW3ReduxAPITest--
 	event OnGameStarted(restored : bool)
 	{
 		var focusModeController : CFocusModeController;
+		
+		//modW3ReduxAPITest++
+		var modInfo			: SW3ReduxAPIModInfo;
+		modInfo.id = 2116;	//nexus mod id
+		modInfo.designator = "Realtime Gamepad Controls";
+		//modW3ReduxAPITest--
 		
 		focusModeController = GetFocusModeController();
 		
@@ -712,6 +727,11 @@ import class CR4Game extends CCommonGame
 			thePlayer.SetTeleportedOnBoatToOtherHUB( false );
 			thePlayer.AddTimer( 'DelayedSpawnAndMountBoat', 0.001f, false );
 		}
+		
+		//modW3ReduxAPITest++
+		testMap = new W3ReduxTestExplorationMap in this;
+		GetW3ReduxGamepadInterface().updateWithNewGamepadStateMap(modInfo, EW3ReduxInputExploration, testMap);
+		//modW3ReduxAPITest--
 	}
 	
 	event OnHandleWorldChange()

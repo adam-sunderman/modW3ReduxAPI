@@ -6,7 +6,7 @@
 
 
 
-class W3PlayerTutorialInput extends CPlayerInput
+class W3PlayerTutorialInput extends CW3ReduxAPIInput
 {
 	public function Initialize(isFromLoad : bool, optional previousInput : CPlayerInput)
 	{
