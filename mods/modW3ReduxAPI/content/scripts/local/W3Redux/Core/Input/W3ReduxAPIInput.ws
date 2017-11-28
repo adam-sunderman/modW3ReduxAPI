@@ -30,14 +30,10 @@ class CW3ReduxAPIInput extends CPlayerInput
 		theInput.RegisterListener(this, 'OnW3ReduxAPIAHold', 'W3ReduxAPI_AHold');
 		theInput.RegisterListener(this, 'OnW3ReduxAPIB', 'W3ReduxAPI_B');
 		theInput.RegisterListener(this, 'OnW3ReduxAPIBHold', 'W3ReduxAPI_BHold');
-		theInput.RegisterListener(this, 'OnW3ReduxAPIY', 'W3ReduxAPI_Y');
-		theInput.RegisterListener(this, 'OnW3ReduxAPIYHold', 'W3ReduxAPI_YHold');
 		theInput.RegisterListener(this, 'OnW3ReduxAPIX', 'W3ReduxAPI_X');
 		theInput.RegisterListener(this, 'OnW3ReduxAPIXHold', 'W3ReduxAPI_XHold');
-	}
-	
-	function Destroy()
-	{
+		theInput.RegisterListener(this, 'OnW3ReduxAPIY', 'W3ReduxAPI_Y');
+		theInput.RegisterListener(this, 'OnW3ReduxAPIYHold', 'W3ReduxAPI_YHold');
 	}
 	
 	function getGamepad() : IW3ReduxAPIGamepad
@@ -45,7 +41,7 @@ class CW3ReduxAPIInput extends CPlayerInput
 		return theGamepad;
 	}
 	
-	public function step()
+	function step()
 	{
 		var newInputState : EW3ReduxInputState;
 		
@@ -75,16 +71,6 @@ class CW3ReduxAPIInput extends CPlayerInput
 		return theGamepad.acceptActionHold(EW3ReduxGamepadB, action);
 	}
 	
-	event OnW3ReduxAPIY(action : SInputAction)
-	{
-		return theGamepad.acceptAction(EW3ReduxGamepadY, action);
-	}
-	
-	event OnW3ReduxAPIYHold(action: SInputAction)
-	{
-		return theGamepad.acceptActionHold(EW3ReduxGamepadY, action);
-	}
-	
 	event OnW3ReduxAPIX(action : SInputAction)
 	{
 		return theGamepad.acceptAction(EW3ReduxGamepadX, action);
@@ -93,6 +79,16 @@ class CW3ReduxAPIInput extends CPlayerInput
 	event OnW3ReduxAPIXHold(action: SInputAction)
 	{
 		return theGamepad.acceptActionHold(EW3ReduxGamepadX, action);
+	}
+	
+	event OnW3ReduxAPIY(action : SInputAction)
+	{
+		return theGamepad.acceptAction(EW3ReduxGamepadY, action);
+	}
+	
+	event OnW3ReduxAPIYHold(action: SInputAction)
+	{
+		return theGamepad.acceptActionHold(EW3ReduxGamepadY, action);
 	}
 	
 	event OnCommSprint( action : SInputAction )
@@ -396,11 +392,41 @@ class CW3ReduxAPIInput extends CPlayerInput
 	
 	event OnCbtAttackLight( action : SInputAction )
 	{
+		var button : EW3ReduxGamepadButton;
+		var mapAction : SW3ReduxAPIMapAction;
+		
+		if(!ActionToEW3ReduxGamepadButton(action, button))
+		{
+			return false;
+		}
+		mapAction.button = button;
+		mapAction.action = EW3ReduxGamepadButtonTap;
+		
+		if(theGamepad.hasOwnerInCurrentState(mapAction))
+		{
+			return false;
+		}
+	
 		return super.OnCbtAttackLight(action);
 	}
 	
 	event OnCbtAttackHeavy( action : SInputAction )
 	{
+		var button : EW3ReduxGamepadButton;
+		var mapAction : SW3ReduxAPIMapAction;
+		
+		if(!ActionToEW3ReduxGamepadButton(action, button))
+		{
+			return false;
+		}
+		mapAction.button = button;
+		mapAction.action = EW3ReduxGamepadButtonTap;	
+
+		if(theGamepad.hasOwnerInCurrentState(mapAction))
+		{
+			return false;
+		}
+		
 		return super.OnCbtAttackHeavy(action);
 	}
 	

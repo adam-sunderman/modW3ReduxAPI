@@ -104,7 +104,7 @@ class CW3ReduxAPIGamepad extends IW3ReduxAPIGamepad
 		
 		if(currentPadState)
 		{
-			//return currentPadState.hasOwner(mapAction);
+			return currentPadState.hasOwner(mapAction);
 		}
 		
 		return false;

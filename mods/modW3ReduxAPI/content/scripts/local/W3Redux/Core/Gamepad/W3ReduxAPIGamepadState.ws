@@ -43,23 +43,38 @@ class CW3ReduxAPIGamepadState
 			m_defaultInputSet.setTapOwner(EW3ReduxGamepadA, stateMap);
 		}
 		
+		if(stateMap.doesOwnBTap())
+		{
+			m_defaultInputSet.setTapOwner(EW3ReduxGamepadB, stateMap);
+		}
+		
+		if(stateMap.doesOwnXTap())
+		{
+			m_defaultInputSet.setTapOwner(EW3ReduxGamepadX, stateMap);
+		}
+		
+		if(stateMap.doesOwnYTap())
+		{
+			m_defaultInputSet.setTapOwner(EW3ReduxGamepadY, stateMap);
+		}
+		
 		//TODO
 		return true;
 	}
 	
-	public function hasHoldOwner(button : EW3ReduxGamepadButton) : bool
+	public function hasOwner(mapAction : SW3ReduxAPIMapAction) : bool
 	{
-		if(button == m_modifierButton)
+		if(mapAction.button == m_modifierButton)
 		{
 			return true;
 		}
 		else if(m_modified)
 		{
-			return m_modifiedInputSet.hasHoldOwner(button);
+			return m_modifiedInputSet.hasOwner(mapAction);
 		}
 		else
 		{
-			return m_defaultInputSet.hasHoldOwner(button);
+			return m_defaultInputSet.hasOwner(mapAction);
 		}
 	}
 	

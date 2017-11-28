@@ -91,14 +91,24 @@ class CW3ReduxAPIGamepadInputSet
 		return false;
 	}
 	
-	public function hasHoldOwner(button : EW3ReduxGamepadButton) : bool
+	public function hasOwner(mapAction : SW3ReduxAPIMapAction) : bool
 	{
 		var cButton : CW3ReduxAPIButton;
-		cButton = getButtonFromEnum(button);
+		cButton = getButtonFromEnum(mapAction.button);
 		
 		if(cButton)
 		{
-			return cButton.hasHoldOwner();
+			switch(mapAction.action)
+			{
+				case EW3ReduxGamepadButtonTap:
+					return cButton.hasTapOwner();
+				case EW3ReduxGamepadButtonDoubleTap:
+					return cButton.hasDoubleTapOwner();
+				case EW3ReduxGamepadButtonHold:
+					return cButton.hasHoldOwner();
+				case EW3ReduxGamepadButtonTappingRapidly:
+					return cButton.hasTappingOwner();
+			}
 		}
 		
 		return false;

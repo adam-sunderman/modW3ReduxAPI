@@ -18,10 +18,10 @@ function W3ReduxCastSign(sign : ESignType) : bool
 	GetWitcherPlayer().SetEquippedSign(sign);
 	
 	//can cast validation
-	//if( !IsActionAllowed(EIAB_Signs) )
+	if( !thePlayer.IsActionAllowed(EIAB_Signs) )
 	{
-		//thePlayer.DisplayActionDisallowedHudMessage(EIAB_Signs);
-		//return false;
+		thePlayer.DisplayActionDisallowedHudMessage(EIAB_Signs);
+		return false;
 	}
 	if ( thePlayer.IsHoldingItemInLHand() && thePlayer.IsUsableItemLBlocked() )
 	{
