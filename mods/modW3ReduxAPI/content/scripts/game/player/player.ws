@@ -240,7 +240,7 @@ statemachine import abstract class CPlayer extends CActor
 		{
 			//modW3ReduxAPI++
 			//inputHandler = new CPlayerInput in this;
-			inputHandler = new CW3ReduxAPIInput in this;
+			inputHandler = new CW3ReduxInput in this;
 			//modW3ReduxAPI--
 			theGame.EnableUberMovement( true );
 			((CInGameConfigWrapper)theGame.GetInGameConfigWrapper()).SetVarValue( 'Gameplay', 'EnableUberMovement', 1 );
@@ -288,7 +288,7 @@ statemachine import abstract class CPlayer extends CActor
 	{
 		//modW3ReduxAPI++
 		//inputHandler = new CPlayerInput in this;
-		inputHandler = new CW3ReduxAPIInput in this;
+		inputHandler = new CW3ReduxInput in this;
 		//modW3ReduxAPI--
 		inputHandler.Initialize(false);
 	}

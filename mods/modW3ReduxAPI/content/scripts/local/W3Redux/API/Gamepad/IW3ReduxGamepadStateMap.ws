@@ -4,7 +4,7 @@ enum EW3ReduxStringUIDisplayMode
 	EW3ReduxStringUIDisplayHardCodedString = 1
 }
 
-abstract class IW3ReduxAPIGamepadStateMap
+abstract class IW3ReduxGamepadStateMap
 {
 	public function hasModifierButton() : bool
 	{
@@ -98,6 +98,7 @@ abstract class IW3ReduxAPIGamepadStateMap
 	
 	public function onATap() : bool
 	{
+		
 		return false;
 	}
 	

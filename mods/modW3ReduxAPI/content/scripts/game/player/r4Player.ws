@@ -13965,7 +13965,7 @@ statemachine abstract import class CR4Player extends CPlayer
 		oldInputHandler = inputHandler;
 		//modW3ReduxAPI++
 		//inputHandler = new CPlayerInput in this;
-		inputHandler = new CW3ReduxAPIInput in this;
+		inputHandler = new CW3ReduxInput in this;
 		//modW3ReduxAPI--
 		inputHandler.Initialize(false, oldInputHandler);
 	}

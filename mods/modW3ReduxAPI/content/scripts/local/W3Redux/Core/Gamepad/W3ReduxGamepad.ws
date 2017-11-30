@@ -1,22 +1,22 @@
-struct SW3ReduxAPIMapAction
+struct SW3ReduxMapAction
 {
 	var button : EW3ReduxGamepadButton;
 	var action : EW3ReduxGamepadButtonAction;
 };
 
-struct SW3ReduxAPIModInfoInternal
+struct SW3ReduxModInfoInternal
 {
-	var info : SW3ReduxAPIModInfo;
-	var ownedActions : array<SW3ReduxAPIMapAction>;
+	var info : SW3ReduxModInfo;
+	var ownedActions : array<SW3ReduxMapAction>;
 };
 
-class CW3ReduxAPIGamepad extends IW3ReduxAPIGamepad
+class CW3ReduxGamepad extends IW3ReduxGamepad
 {
-	private var m_ExplorationPad 	: CW3ReduxAPIGamepadState;
-	private var m_CombatPad 		: CW3ReduxAPIGamepadState;
-	private var m_SwimPad 			: CW3ReduxAPIGamepadState;
-	private var m_HorsePad			: CW3ReduxAPIGamepadState;
-	private var m_BoatPad 			: CW3ReduxAPIGamepadState;
+	private var m_ExplorationPad	: CW3ReduxGamepadState;
+	private var m_CombatPad 		: CW3ReduxGamepadState;
+	private var m_SwimPad 			: CW3ReduxGamepadState;
+	private var m_HorsePad			: CW3ReduxGamepadState;
+	private var m_BoatPad 			: CW3ReduxGamepadState;
 	private var m_currentInputState	: EW3ReduxInputState;
 		default m_currentInputState = EW3ReduxInputNone;
 	private var m_initialized 		: bool;
@@ -24,11 +24,11 @@ class CW3ReduxAPIGamepad extends IW3ReduxAPIGamepad
 		
 	public function initialize() : bool
 	{
-		m_ExplorationPad = new CW3ReduxAPIGamepadState in this;
-		m_CombatPad = new CW3ReduxAPIGamepadState in this;
-		m_SwimPad = new CW3ReduxAPIGamepadState in this;
-		m_HorsePad = new CW3ReduxAPIGamepadState in this;
-		m_BoatPad = new CW3ReduxAPIGamepadState in this;
+		m_ExplorationPad = new CW3ReduxGamepadState in this;
+		m_CombatPad = new CW3ReduxGamepadState in this;
+		m_SwimPad = new CW3ReduxGamepadState in this;
+		m_HorsePad = new CW3ReduxGamepadState in this;
+		m_BoatPad = new CW3ReduxGamepadState in this;
 		
 		m_ExplorationPad.initialize();
 		m_CombatPad.initialize();
@@ -40,27 +40,27 @@ class CW3ReduxAPIGamepad extends IW3ReduxAPIGamepad
 		return m_initialized;
 	}
 	
-	public function getExplorationPad() : CW3ReduxAPIGamepadState
+	public function getExplorationPad() : CW3ReduxGamepadState
 	{
 		return m_ExplorationPad;
 	}
 	
-	public function getCombatPad() : CW3ReduxAPIGamepadState
+	public function getCombatPad() : CW3ReduxGamepadState
 	{
 		return m_CombatPad;
 	}
 	
-	public function getSwimPad() : CW3ReduxAPIGamepadState
+	public function getSwimPad() : CW3ReduxGamepadState
 	{
 		return m_SwimPad;
 	}
 	
-	public function getHorsePad() : CW3ReduxAPIGamepadState
+	public function getHorsePad() : CW3ReduxGamepadState
 	{
 		return m_HorsePad;
 	}
 	
-	public function getBoatPad() : CW3ReduxAPIGamepadState
+	public function getBoatPad() : CW3ReduxGamepadState
 	{
 		return m_BoatPad;
 	}
@@ -70,13 +70,11 @@ class CW3ReduxAPIGamepad extends IW3ReduxAPIGamepad
 		m_currentInputState = inputState;
 	}
 	
-	public function updateWithNewGamepadStateMap(modInfo : SW3ReduxAPIModInfo, forState : EW3ReduxInputState, 
-		stateMap : IW3ReduxAPIGamepadStateMap) : bool
+	public function updateWithNewGamepadStateMap(modInfo : SW3ReduxModInfo, forState : EW3ReduxInputState, 
+		stateMap : IW3ReduxGamepadStateMap) : bool
 	{
-		var padState : CW3ReduxAPIGamepadState;
+		var padState : CW3ReduxGamepadState;
 		padState = getPadStateFromEnum(forState);
-
-		W3ReduxAPILogInfo("updating gamepad for mod " + modInfo.designator);
 	
 		if(padState)
 		{
@@ -86,7 +84,7 @@ class CW3ReduxAPIGamepad extends IW3ReduxAPIGamepad
 		return false;
 	}
 	
-	public function clearModGamepadStateMaps(modInfo : SW3ReduxAPIModInfo) : bool
+	public function clearModGamepadStateMaps(modInfo : SW3ReduxModInfo) : bool
 	{
 		//m_BoatPad.clearModGamepadStateMaps(modInfo);
 		//m_CombatPad.clearModGamepadStateMaps(modInfo);
@@ -97,9 +95,9 @@ class CW3ReduxAPIGamepad extends IW3ReduxAPIGamepad
 		return true;
 	}
 	
-	public function hasOwnerInCurrentState(mapAction : SW3ReduxAPIMapAction) : bool
+	public function hasOwnerInCurrentState(mapAction : SW3ReduxMapAction) : bool
 	{
-		var currentPadState : CW3ReduxAPIGamepadState;
+		var currentPadState : CW3ReduxGamepadState;
 		currentPadState = getPadStateFromEnum(m_currentInputState);
 		
 		if(currentPadState)
@@ -112,7 +110,7 @@ class CW3ReduxAPIGamepad extends IW3ReduxAPIGamepad
 	
 	public function acceptAction(button : EW3ReduxGamepadButton, action : SInputAction) : bool
 	{
-		var currentPadState : CW3ReduxAPIGamepadState;
+		var currentPadState : CW3ReduxGamepadState;
 		currentPadState = getPadStateFromEnum(m_currentInputState);
 		
 		if(currentPadState)
@@ -125,7 +123,7 @@ class CW3ReduxAPIGamepad extends IW3ReduxAPIGamepad
 	
 	public function acceptActionHold(button : EW3ReduxGamepadButton, action : SInputAction) : bool
 	{
-		var currentPadState : CW3ReduxAPIGamepadState;
+		var currentPadState : CW3ReduxGamepadState;
 		currentPadState = getPadStateFromEnum(m_currentInputState);
 		
 		if(currentPadState)
@@ -136,7 +134,7 @@ class CW3ReduxAPIGamepad extends IW3ReduxAPIGamepad
 		return false;
 	}
 	
-	private function getPadStateFromEnum(padStateEnum : EW3ReduxInputState) : CW3ReduxAPIGamepadState
+	private function getPadStateFromEnum(padStateEnum : EW3ReduxInputState) : CW3ReduxGamepadState
 	{
 		switch(padStateEnum)
 		{

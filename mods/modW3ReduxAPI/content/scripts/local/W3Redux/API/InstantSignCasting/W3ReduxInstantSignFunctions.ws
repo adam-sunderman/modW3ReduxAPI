@@ -10,7 +10,6 @@ function W3ReduxCastSign(sign : ESignType) : bool
 	if( signSkill == S_SUndefined )
 	{
 		//Uh oh
-		W3ReduxAPILogError("W3ReduxCastSign(ESignType): provided ESignType is undefined");
 		return false;
 	}
 

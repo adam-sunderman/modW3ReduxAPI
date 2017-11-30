@@ -1,42 +1,42 @@
-class CW3ReduxAPIGamepadInputSet
+class CW3ReduxGamepadInputSet
 {
-	private var m_AButton : CW3ReduxAPIButton;
-	private var m_BButton : CW3ReduxAPIButton;
-	private var m_XButton : CW3ReduxAPIButton;
-	private var m_YButton : CW3ReduxAPIButton;
-	private var m_UpArrow : CW3ReduxAPIButton;
-	private var m_DownArrow : CW3ReduxAPIButton;
-	private var m_RightArrow : CW3ReduxAPIButton;
-	private var m_LeftArrow : CW3ReduxAPIButton;
-	private var m_L3 : CW3ReduxAPIButton;
-	private var m_R3 : CW3ReduxAPIButton;
-	private var m_LBButton : CW3ReduxAPIButton;
-	private var m_RBButton : CW3ReduxAPIButton;
-	private var m_LTButton : CW3ReduxAPIButton;
-	private var m_RTButton : CW3ReduxAPIButton;
-	private var m_startButton : CW3ReduxAPIButton;
-	private var m_selectButton : CW3ReduxAPIButton;
+	private var m_AButton : CW3ReduxButton;
+	private var m_BButton : CW3ReduxButton;
+	private var m_XButton : CW3ReduxButton;
+	private var m_YButton : CW3ReduxButton;
+	private var m_UpArrow : CW3ReduxButton;
+	private var m_DownArrow : CW3ReduxButton;
+	private var m_RightArrow : CW3ReduxButton;
+	private var m_LeftArrow : CW3ReduxButton;
+	private var m_L3 : CW3ReduxButton;
+	private var m_R3 : CW3ReduxButton;
+	private var m_LBButton : CW3ReduxButton;
+	private var m_RBButton : CW3ReduxButton;
+	private var m_LTButton : CW3ReduxButton;
+	private var m_RTButton : CW3ReduxButton;
+	private var m_startButton : CW3ReduxButton;
+	private var m_selectButton : CW3ReduxButton;
 	private var m_initialized : bool;
 		default m_initialized = false;
 		
 	public function initialize()
 	{
-		m_AButton = new CW3ReduxAPIButton in this;
-		m_BButton = new CW3ReduxAPIButton in this;
-		m_YButton = new CW3ReduxAPIButton in this;
-		m_XButton = new CW3ReduxAPIButton in this;
-		m_UpArrow = new CW3ReduxAPIButton in this;
-		m_DownArrow = new CW3ReduxAPIButton in this;
-		m_RightArrow = new CW3ReduxAPIButton in this;
-		m_LeftArrow = new CW3ReduxAPIButton in this;
-		m_L3 = new CW3ReduxAPIButton in this;
-		m_R3 = new CW3ReduxAPIButton in this;
-		m_LBButton = new CW3ReduxAPIButton in this;
-		m_RBButton = new CW3ReduxAPIButton in this;
-		m_LTButton = new CW3ReduxAPIButton in this;
-		m_RTButton = new CW3ReduxAPIButton in this;
-		m_startButton = new CW3ReduxAPIButton in this;
-		m_selectButton = new CW3ReduxAPIButton in this;
+		m_AButton = new CW3ReduxButton in this;
+		m_BButton = new CW3ReduxButton in this;
+		m_YButton = new CW3ReduxButton in this;
+		m_XButton = new CW3ReduxButton in this;
+		m_UpArrow = new CW3ReduxButton in this;
+		m_DownArrow = new CW3ReduxButton in this;
+		m_RightArrow = new CW3ReduxButton in this;
+		m_LeftArrow = new CW3ReduxButton in this;
+		m_L3 = new CW3ReduxButton in this;
+		m_R3 = new CW3ReduxButton in this;
+		m_LBButton = new CW3ReduxButton in this;
+		m_RBButton = new CW3ReduxButton in this;
+		m_LTButton = new CW3ReduxButton in this;
+		m_RTButton = new CW3ReduxButton in this;
+		m_startButton = new CW3ReduxButton in this;
+		m_selectButton = new CW3ReduxButton in this;
 	
 		m_AButton.initialize(EW3ReduxGamepadA);
 		m_BButton.initialize(EW3ReduxGamepadB);
@@ -58,9 +58,9 @@ class CW3ReduxAPIGamepadInputSet
 		m_initialized = true;
 	}
 	
-	public function setTapOwner(button : EW3ReduxGamepadButton, owner : IW3ReduxAPIGamepadStateMap) : bool
+	public function setTapOwner(button : EW3ReduxGamepadButton, owner : IW3ReduxGamepadStateMap) : bool
 	{
-		var cButton : CW3ReduxAPIButton;
+		var cButton : CW3ReduxButton;
 		cButton = getButtonFromEnum(button);
 		
 		if(cButton)
@@ -75,9 +75,9 @@ class CW3ReduxAPIGamepadInputSet
 		return false;
 	}
 	
-	public function setHoldOwner(button : EW3ReduxGamepadButton, owner : IW3ReduxAPIGamepadStateMap) : bool
+	public function setHoldOwner(button : EW3ReduxGamepadButton, owner : IW3ReduxGamepadStateMap) : bool
 	{
-		var cButton : CW3ReduxAPIButton;
+		var cButton : CW3ReduxButton;
 		cButton = getButtonFromEnum(button);
 		
 		if(cButton)
@@ -91,9 +91,9 @@ class CW3ReduxAPIGamepadInputSet
 		return false;
 	}
 	
-	public function hasOwner(mapAction : SW3ReduxAPIMapAction) : bool
+	public function hasOwner(mapAction : SW3ReduxMapAction) : bool
 	{
-		var cButton : CW3ReduxAPIButton;
+		var cButton : CW3ReduxButton;
 		cButton = getButtonFromEnum(mapAction.button);
 		
 		if(cButton)
@@ -116,7 +116,7 @@ class CW3ReduxAPIGamepadInputSet
 	
 	public function acceptAction(button : EW3ReduxGamepadButton, action : SInputAction) : bool
 	{
-		var cButton : CW3ReduxAPIButton;
+		var cButton : CW3ReduxButton;
 		cButton = getButtonFromEnum(button);
 		
 		if(cButton)
@@ -129,7 +129,7 @@ class CW3ReduxAPIGamepadInputSet
 	
 	public function acceptActionHold(button : EW3ReduxGamepadButton, action : SInputAction) : bool
 	{
-		var cButton : CW3ReduxAPIButton;
+		var cButton : CW3ReduxButton;
 		cButton = getButtonFromEnum(button);
 		
 		if(cButton)
@@ -140,7 +140,7 @@ class CW3ReduxAPIGamepadInputSet
 		return false;
 	}
 	
-	private function getButtonFromEnum(button : EW3ReduxGamepadButton) : CW3ReduxAPIButton
+	private function getButtonFromEnum(button : EW3ReduxGamepadButton) : CW3ReduxButton
 	{
 		switch(button)
 		{

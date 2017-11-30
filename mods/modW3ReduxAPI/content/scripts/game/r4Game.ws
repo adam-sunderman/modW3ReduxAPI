@@ -659,8 +659,8 @@ import class CR4Game extends CCommonGame
 	public function OnTick()
 	{
 		//modW3ReduxAPI++
-		var inputHandler : CW3ReduxAPIInput;
-		inputHandler = (CW3ReduxAPIInput) GetWitcherPlayer().GetInputHandler();
+		var inputHandler : CW3ReduxInput;
+		inputHandler = (CW3ReduxInput) GetWitcherPlayer().GetInputHandler();
 		inputHandler.step();
 		//modW3ReduxAPI--
 	
@@ -685,9 +685,9 @@ import class CR4Game extends CCommonGame
 		var focusModeController : CFocusModeController;
 		
 		//modW3ReduxAPITest++
-		var modInfo			: SW3ReduxAPIModInfo;
+		var modInfo			: SW3ReduxModInfo;
 		modInfo.id = 2116;	//nexus mod id
-		modInfo.designator = "Realtime Gamepad Controls";
+		modInfo.designator = "RGC";
 		//modW3ReduxAPITest--
 		
 		focusModeController = GetFocusModeController();
@@ -730,7 +730,7 @@ import class CR4Game extends CCommonGame
 		
 		//modW3ReduxAPITest++
 		testMap = new W3ReduxTestExplorationMap in this;
-		GetW3ReduxGamepadInterface().updateWithNewGamepadStateMap(modInfo, EW3ReduxInputExploration, testMap);
+		getW3ReduxGamepadInterface().updateWithNewGamepadStateMap(modInfo, EW3ReduxInputExploration, testMap);
 		//modW3ReduxAPITest--
 	}
 	

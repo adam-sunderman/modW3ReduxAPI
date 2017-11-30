@@ -1,7 +1,7 @@
-class CW3ReduxAPIGamepadState
+class CW3ReduxGamepadState
 {
-	private var m_defaultInputSet : CW3ReduxAPIGamepadInputSet;
-	private var m_modifiedInputSet : CW3ReduxAPIGamepadInputSet;
+	private var m_defaultInputSet : CW3ReduxGamepadInputSet;
+	private var m_modifiedInputSet : CW3ReduxGamepadInputSet;
 	private var m_modifierButton : EW3ReduxGamepadButton;
 		default m_modifierButton = EW3ReduxGamepadNone;
 	private var m_modified : bool;
@@ -9,8 +9,8 @@ class CW3ReduxAPIGamepadState
 
 	public function initialize() : bool
 	{
-		m_defaultInputSet = new CW3ReduxAPIGamepadInputSet in this;
-		m_modifiedInputSet = new CW3ReduxAPIGamepadInputSet in this;
+		m_defaultInputSet = new CW3ReduxGamepadInputSet in this;
+		m_modifiedInputSet = new CW3ReduxGamepadInputSet in this;
 		
 		m_defaultInputSet.initialize();
 		m_modifiedInputSet.initialize();
@@ -23,13 +23,12 @@ class CW3ReduxAPIGamepadState
 		m_modifierButton = modifierButton;
 	}
 	
-	public function updateWithNewGamepadStateMap(modInfo : SW3ReduxAPIModInfo, stateMap : IW3ReduxAPIGamepadStateMap) : bool
+	public function updateWithNewGamepadStateMap(modInfo : SW3ReduxModInfo, stateMap : IW3ReduxGamepadStateMap) : bool
 	{
 		var stateMapModifierButton : EW3ReduxGamepadButton;
 	
 		if(m_modifierButton != EW3ReduxGamepadNone && stateMap.hasModifierButton())
 		{
-			W3ReduxAPILogError("CW3ReduxAPIGamepadState::updateWithNewGamepadStateMap(): CONFLICT: Modifier");
 			return false;
 		}
 		
@@ -62,7 +61,7 @@ class CW3ReduxAPIGamepadState
 		return true;
 	}
 	
-	public function hasOwner(mapAction : SW3ReduxAPIMapAction) : bool
+	public function hasOwner(mapAction : SW3ReduxMapAction) : bool
 	{
 		if(mapAction.button == m_modifierButton)
 		{

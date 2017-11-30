@@ -1,4 +1,4 @@
-class W3ReduxTestExplorationMap extends IW3ReduxAPIGamepadStateMap
+class W3ReduxTestExplorationMap extends IW3ReduxGamepadStateMap
 {
 	function doesOwnATap() : bool
 	{

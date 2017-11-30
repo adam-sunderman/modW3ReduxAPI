@@ -40,7 +40,7 @@ enum EW3ReduxGamepadButtonAction
 	EW3ReduxGamepadButtonTappingRapidly
 }
 
-function ActionToEW3ReduxGamepadButton(action : SInputAction, optional out button : EW3ReduxGamepadButton) : bool
+function actionToEW3ReduxGamepadButton(action : SInputAction, optional out button : EW3ReduxGamepadButton) : bool
 {
 	var gamepadKeys : array<EInputKey>;
 	theInput.GetPadKeysForAction(action.aName, gamepadKeys);
@@ -104,7 +104,7 @@ function ActionToEW3ReduxGamepadButton(action : SInputAction, optional out butto
 	return false;
 }
 
-function ContextNameToW3ReduxInputState(context : name, optional out inputState : EW3ReduxInputState) : bool
+function contextNameToW3ReduxInputState(context : name, optional out inputState : EW3ReduxInputState) : bool
 {
 	switch(context)
 	{

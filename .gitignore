@@ -1,6 +1,6 @@
-Release
-Pics
-*.redsln
+/Release
+/Pics
 /scripts
 /content
 *.log
+*.redsln

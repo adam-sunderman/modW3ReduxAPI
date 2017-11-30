@@ -4,28 +4,39 @@
 /** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-class CW3ReduxAPIInput extends CPlayerInput
+class CW3ReduxInput extends CPlayerInput
 {
-	private var theGamepad : CW3ReduxAPIGamepad;
+	private var modGamepad 		: CW3ReduxGamepad;
+	private var log 			: CW3ReduxLogger;
 		
 	public function Initialize(isFromLoad : bool, optional previousInput : CPlayerInput)
 	{
-		var previousInputAsRedux : CW3ReduxAPIInput;
+		//variable to cast previous input to our derived class
+		var previousInputAsRedux : CW3ReduxInput;
 	
+		//initialize logger
+		log = new CW3ReduxLogger in this;
+		log.init('W3ReduxAPI', 'Input', EW3ReduxLogDebug);
+		
+		//if previous input was provided, we should use previous gamepad. no reason to re-initialize the gamepad
 		if(!previousInput)
 		{
-			theGamepad = new CW3ReduxAPIGamepad in this;
-			theGamepad.initialize();
-			LogChannel('W3ReduxAPI', "Initialized Gamepad Reloaded!");
+			modGamepad = new CW3ReduxGamepad in this;
+			modGamepad.initialize();
+			log.info("new input and new gamepad initialized");
 		}
 		else
 		{
-			previousInputAsRedux = (CW3ReduxAPIInput) previousInput;
-			theGamepad = previousInputAsRedux.theGamepad;
-			LogChannel('W3ReduxAPI', 'New Input being created. Keeping old gamepad');
+			previousInputAsRedux = (CW3ReduxInput) previousInput;
+			modGamepad = previousInputAsRedux.modGamepad;
+			log.info("input re-created. re-using singleton gamepad");
 		}
+		
+		//allow CPlayerInput to initialize. This is important because unless a button is mapped,
+		//we will still let CPlayerInput handle an input action same as Vanilla
 		super.Initialize(isFromLoad, previousInput);
 		
+		//register listeners for ALL gamepad buttons and their respective "hold" actions
 		theInput.RegisterListener(this, 'OnW3ReduxAPIA', 'W3ReduxAPI_A');
 		theInput.RegisterListener(this, 'OnW3ReduxAPIAHold', 'W3ReduxAPI_AHold');
 		theInput.RegisterListener(this, 'OnW3ReduxAPIB', 'W3ReduxAPI_B');
@@ -36,74 +47,84 @@ class CW3ReduxAPIInput extends CPlayerInput
 		theInput.RegisterListener(this, 'OnW3ReduxAPIYHold', 'W3ReduxAPI_YHold');
 	}
 	
-	function getGamepad() : IW3ReduxAPIGamepad
+	function getGamepad() : IW3ReduxGamepad
 	{
-		return theGamepad;
+		log.debug("getGamepad(): gave instance of gamepad API to caller");
+		return modGamepad;
 	}
 	
-	function step()
+	public function step()
 	{
 		var newInputState : EW3ReduxInputState;
 		
-		if(ContextNameToW3ReduxInputState(theInput.GetContext(), newInputState))
+		if(contextNameToW3ReduxInputState(theInput.GetContext(), newInputState))
 		{
-			theGamepad.setInputState(newInputState);
+			modGamepad.setInputState(newInputState);
 		}
 	}
 	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	/*************************START INPUT ACTION EVENTS******************************************/
+	//////////////////////////////////////////////////////////////////////////////////////////////
 	event OnW3ReduxAPIA(action : SInputAction)
 	{
-		return theGamepad.acceptAction(EW3ReduxGamepadA, action);
+		return modGamepad.acceptAction(EW3ReduxGamepadA, action);
 	}
 	
 	event OnW3ReduxAPIAHold(action: SInputAction)
 	{
-		return theGamepad.acceptActionHold(EW3ReduxGamepadA, action);
+		return modGamepad.acceptActionHold(EW3ReduxGamepadA, action);
 	}
 	
 	event OnW3ReduxAPIB(action : SInputAction)
 	{
-		return theGamepad.acceptAction(EW3ReduxGamepadB, action);
+		return modGamepad.acceptAction(EW3ReduxGamepadB, action);
 	}
 	
 	event OnW3ReduxAPIBHold(action: SInputAction)
 	{
-		return theGamepad.acceptActionHold(EW3ReduxGamepadB, action);
+		return modGamepad.acceptActionHold(EW3ReduxGamepadB, action);
 	}
 	
 	event OnW3ReduxAPIX(action : SInputAction)
 	{
-		return theGamepad.acceptAction(EW3ReduxGamepadX, action);
+		return modGamepad.acceptAction(EW3ReduxGamepadX, action);
 	}
 	
 	event OnW3ReduxAPIXHold(action: SInputAction)
 	{
-		return theGamepad.acceptActionHold(EW3ReduxGamepadX, action);
+		return modGamepad.acceptActionHold(EW3ReduxGamepadX, action);
 	}
 	
 	event OnW3ReduxAPIY(action : SInputAction)
 	{
-		return theGamepad.acceptAction(EW3ReduxGamepadY, action);
+		return modGamepad.acceptAction(EW3ReduxGamepadY, action);
 	}
 	
 	event OnW3ReduxAPIYHold(action: SInputAction)
 	{
-		return theGamepad.acceptActionHold(EW3ReduxGamepadY, action);
+		return modGamepad.acceptActionHold(EW3ReduxGamepadY, action);
 	}
 	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	/*************************START VANILLA INPUT ACTION OVERRIDES*******************************/
+	/*************************NOTE:	we just override controller inputs***************************/
+	//////////////////////////////////////////////////////////////////////////////////////////////
 	event OnCommSprint( action : SInputAction )
 	{
 		var button : EW3ReduxGamepadButton;
-		var mapAction : SW3ReduxAPIMapAction;
+		var mapAction : SW3ReduxMapAction;
 		
-		if(!ActionToEW3ReduxGamepadButton(action, button))
+		if(!actionToEW3ReduxGamepadButton(action, button))
 		{
+			log.error("OnCommSprint(): received SInputAction that was not able to be mapped to a button");
 			return false;
 		}
+		
 		mapAction.button = button;
 		mapAction.action = EW3ReduxGamepadButtonHold;
 		
-		if(theGamepad.hasOwnerInCurrentState(mapAction))
+		if(modGamepad.hasOwnerInCurrentState(mapAction))
 		{
 			return false;
 		}
@@ -115,16 +136,17 @@ class CW3ReduxAPIInput extends CPlayerInput
 	event OnCommGuard( action : SInputAction )
 	{
 		var button : EW3ReduxGamepadButton;
-		var mapAction : SW3ReduxAPIMapAction;
+		var mapAction : SW3ReduxMapAction;
 		
-		if(!ActionToEW3ReduxGamepadButton(action, button))
+		if(!actionToEW3ReduxGamepadButton(action, button))
 		{
+			log.error("OnCommGuard(): received SInputAction that was not able to be mapped to a button");
 			return false;
 		}
 		mapAction.button = button;
 		mapAction.action = EW3ReduxGamepadButtonHold;
 		
-		if(theGamepad.hasOwnerInCurrentState(mapAction))
+		if(modGamepad.hasOwnerInCurrentState(mapAction))
 		{
 			return false;
 		}
@@ -136,8 +158,9 @@ class CW3ReduxAPIInput extends CPlayerInput
 	{
 		var button : EW3ReduxGamepadButton;
 		
-		if(!ActionToEW3ReduxGamepadButton(action, button))
+		if(!actionToEW3ReduxGamepadButton(action, button))
 		{
+			log.error("OnCommSpawnHorse(): received SInputAction that was not able to be mapped to a button");
 			return false;
 		}
 		
@@ -153,7 +176,7 @@ class CW3ReduxAPIInput extends CPlayerInput
 	{
 		var button : EW3ReduxGamepadButton;
 		
-		//if(!ActionToEW3ReduxGamepadButton(action, button))
+		//if(!actionToEW3ReduxGamepadButton(action, button))
 		//{
 		//	return false;
 		//}
@@ -164,100 +187,6 @@ class CW3ReduxAPIInput extends CPlayerInput
 		//}
 		
 		return super.OnCommMenuHub(action);
-	}
-	
-	event OnCommPanelChar( action : SInputAction )
-	{
-		//not gamepad mapped
-		return false;
-	}
-
-	
-	event OnCommPanelInv( action : SInputAction )
-	{		
-		//not gamepad maped
-		return false;
-	}
-	
-	
-	event OnCommDeckEditor( action : SInputAction )
-	{
-		//not gamepad action
-		return false;
-	}
-	
-	
-	event OnCommPanelMed( action : SInputAction )
-	{
-		//not gamepad action
-		return false;
-	}	
-	
-	event OnCommPanelMapPC( action : SInputAction )
-	{
-		//not gamepad action
-		return false;
-	}
-	
-	event OnCommPanelMap( action : SInputAction )
-	{
-		//not gamepad action
-		return false;
-	}
-	
-	event OnCommPanelJour( action : SInputAction )
-	{
-		//not gamepad action
-		return false;
-	}
-	
-	event OnCommPanelMeditation( action : SInputAction )
-	{
-		//not gamepad action
-		return false;
-	}
-	
-	event OnCommPanelCrafting( action : SInputAction )
-	{
-		//not gamepad action
-		return false;
-	}
-	
-	
-	event OnCommPanelBestiary( action : SInputAction )
-	{
-		//not gamepad action
-		return false;
-	}
-	
-	event OnCommPanelAlch( action : SInputAction )
-	{
-		//not gamepad action
-		return false;
-	}
-	
-	event OnCommPanelGlossary( action : SInputAction )
-	{
-		//not gamepad action
-		return false;
-	}
-	
-	event OnShowControlsHelp( action : SInputAction )
-	{
-		//not gamepad action
-		return false;
-	}
-	
-	event OnCommPanelUIResize( action : SInputAction )
-	{
-		//not gamepad action
-		return false;
-	}	
-
-	event OnCommPanelFakeHud( action : SInputAction )
-	{
-		//not gamepad action
-		return false;
 	}
 
 	event OnCommSteelSword( action : SInputAction )
@@ -393,16 +322,16 @@ class CW3ReduxAPIInput extends CPlayerInput
 	event OnCbtAttackLight( action : SInputAction )
 	{
 		var button : EW3ReduxGamepadButton;
-		var mapAction : SW3ReduxAPIMapAction;
+		var mapAction : SW3ReduxMapAction;
 		
-		if(!ActionToEW3ReduxGamepadButton(action, button))
+		if(!actionToEW3ReduxGamepadButton(action, button))
 		{
 			return false;
 		}
 		mapAction.button = button;
 		mapAction.action = EW3ReduxGamepadButtonTap;
 		
-		if(theGamepad.hasOwnerInCurrentState(mapAction))
+		if(modGamepad.hasOwnerInCurrentState(mapAction))
 		{
 			return false;
 		}
@@ -413,16 +342,16 @@ class CW3ReduxAPIInput extends CPlayerInput
 	event OnCbtAttackHeavy( action : SInputAction )
 	{
 		var button : EW3ReduxGamepadButton;
-		var mapAction : SW3ReduxAPIMapAction;
+		var mapAction : SW3ReduxMapAction;
 		
-		if(!ActionToEW3ReduxGamepadButton(action, button))
+		if(!actionToEW3ReduxGamepadButton(action, button))
 		{
 			return false;
 		}
 		mapAction.button = button;
 		mapAction.action = EW3ReduxGamepadButtonTap;	
 
-		if(theGamepad.hasOwnerInCurrentState(mapAction))
+		if(modGamepad.hasOwnerInCurrentState(mapAction))
 		{
 			return false;
 		}

@@ -1,9 +1,10 @@
-class CW3ReduxAPIButton
+class CW3ReduxButton
 {
-	private var m_tapOwner : IW3ReduxAPIGamepadStateMap;
-	private var m_holdOwner : IW3ReduxAPIGamepadStateMap;
-	private var m_doubleTapOwner : IW3ReduxAPIGamepadStateMap;
-	private var m_tappingOwner : IW3ReduxAPIGamepadStateMap;
+	private var m_log : CW3ReduxLogger;
+	private var m_tapOwner : IW3ReduxGamepadStateMap;
+	private var m_holdOwner : IW3ReduxGamepadStateMap;
+	private var m_doubleTapOwner : IW3ReduxGamepadStateMap;
+	private var m_tappingOwner : IW3ReduxGamepadStateMap;
 	private var m_button : EW3ReduxGamepadButton;
 	private var m_initialized : bool;
 		default m_initialized = false;
@@ -21,6 +22,8 @@ class CW3ReduxAPIButton
 	
 	public function initialize(button : EW3ReduxGamepadButton) : bool
 	{
+		m_log = new CW3ReduxLogger in this;
+		m_log.init('W3ReduxAPI', 'Button', EW3ReduxLogDebug);
 		m_button = button;
 		m_initialized = true;
 		return m_initialized;
@@ -51,7 +54,7 @@ class CW3ReduxAPIButton
 		return m_tappingOwner;
 	}
 	
-	public function setTapOwner(owner : IW3ReduxAPIGamepadStateMap) : bool
+	public function setTapOwner(owner : IW3ReduxGamepadStateMap) : bool
 	{
 		if(!m_initialized)
 		{
@@ -62,7 +65,7 @@ class CW3ReduxAPIButton
 		return true;
 	}
 	
-	public function setHoldOwner(owner : IW3ReduxAPIGamepadStateMap) : bool
+	public function setHoldOwner(owner : IW3ReduxGamepadStateMap) : bool
 	{
 		if(!m_initialized)
 		{
@@ -73,7 +76,7 @@ class CW3ReduxAPIButton
 		return true;
 	}
 	
-	public function setDoubleTapOwner(owner : IW3ReduxAPIGamepadStateMap) : bool
+	public function setDoubleTapOwner(owner : IW3ReduxGamepadStateMap) : bool
 	{
 		if(!m_initialized)
 		{
@@ -84,7 +87,7 @@ class CW3ReduxAPIButton
 		return true;
 	}
 	
-	public function setTappingOwner(owner : IW3ReduxAPIGamepadStateMap) : bool
+	public function setTappingOwner(owner : IW3ReduxGamepadStateMap) : bool
 	{
 		if(!m_initialized)
 		{
@@ -110,7 +113,7 @@ class CW3ReduxAPIButton
 			{
 				if(m_tapOwner)
 				{
-					W3ReduxAPILogInfo("Sending Tap Command to Tap Owner");
+					m_log.debug("sending tap to tap owner");
 					return buttonTapTranslationCall(m_tapOwner);
 				}
 				m_isDoubleTapped = false;
@@ -141,7 +144,7 @@ class CW3ReduxAPIButton
 		return true;
 	}
 	
-	private function buttonActionToOwner(actionType : EW3ReduxGamepadButtonAction) : IW3ReduxAPIGamepadStateMap
+	private function buttonActionToOwner(actionType : EW3ReduxGamepadButtonAction) : IW3ReduxGamepadStateMap
 	{
 		switch(actionType)
 		{
@@ -158,7 +161,7 @@ class CW3ReduxAPIButton
 		return NULL;
 	}
 	
-	private function buttonTapTranslationCall(owner : IW3ReduxAPIGamepadStateMap) : bool
+	private function buttonTapTranslationCall(owner : IW3ReduxGamepadStateMap) : bool
 	{
 		switch(m_button)
 		{

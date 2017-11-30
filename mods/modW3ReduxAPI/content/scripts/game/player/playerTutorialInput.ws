@@ -5,8 +5,10 @@
 /***********************************************************************/
 
 
-
-class W3PlayerTutorialInput extends CW3ReduxAPIInput
+//modW3ReduxAPI++
+//class W3PlayerTutorialInput extends CPlayerInput
+class W3PlayerTutorialInput extends CW3ReduxInput
+//modW3ReduxAPI--
 {
 	public function Initialize(isFromLoad : bool, optional previousInput : CPlayerInput)
 	{
